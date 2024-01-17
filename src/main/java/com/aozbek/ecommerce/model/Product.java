@@ -1,8 +1,8 @@
 package com.aozbek.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.engine.internal.Cascade;
 
 import java.math.BigDecimal;
 
@@ -20,7 +20,8 @@ public class Product {
     private BigDecimal price;
     private String description;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "category_id")
     private Category category;
 }

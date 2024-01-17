@@ -13,6 +13,12 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(CategoryNotExist.class)
     public ResponseEntity<String> handleCategoryNotExist(CategoryNotExist ex) {
         log.error("CategoryNotExist exception has been occurred. Message: "  + ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ProductNotExist.class)
+    public ResponseEntity<String> handleProductNotExist(ProductNotExist ex) {
+        log.error("ProductNotExist exception has been occurred. Message: "  + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }
