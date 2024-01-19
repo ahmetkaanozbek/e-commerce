@@ -3,7 +3,6 @@ package com.aozbek.ecommerce.service;
 import com.aozbek.ecommerce.exception.CategoryNotExist;
 import com.aozbek.ecommerce.model.Category;
 import com.aozbek.ecommerce.repository.CategoryRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +29,7 @@ public class CategoryService {
 
     /*
      To delete a category one must move or delete all the products belongs to
-     that category to another category. Due to existence of foreign key and
+     that category to another category. Due to existence of foreign key and to
      protect data integrity.
     */
     public void deleteCategory(Long categoryId) {

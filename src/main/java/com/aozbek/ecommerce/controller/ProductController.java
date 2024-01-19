@@ -26,7 +26,13 @@ public class ProductController {
     @PutMapping(value = "/update/{productId}")
     public ResponseEntity<Product> updateProduct(@RequestBody UpdatedProductDto updatedProductDto,
                                                  @PathVariable Long productId) {
-        Product updatedProduct = productService.updatedProduct(updatedProductDto, productId);
+        Product updatedProduct = productService.updateProduct(updatedProductDto, productId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedProduct);
+    }
+
+    @DeleteMapping(value = "/delete/{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.status(HttpStatus.OK).body("A product has been deleted successfully.");
     }
 }

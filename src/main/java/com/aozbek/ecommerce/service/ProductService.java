@@ -7,10 +7,8 @@ import com.aozbek.ecommerce.mapper.UpdatedProductMapper;
 import com.aozbek.ecommerce.model.Product;
 import com.aozbek.ecommerce.repository.CategoryRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 public class ProductService {
 
@@ -35,7 +33,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updatedProduct(UpdatedProductDto updatedProductDto, Long productId) {
+    public Product updateProduct(UpdatedProductDto updatedProductDto, Long productId) {
         Long categoryIdOfProduct = updatedProductDto.getCategoryId();
         if (!(categoryRepository.existsById(categoryIdOfProduct))) {
             throw new CategoryNotExist();
@@ -46,5 +44,12 @@ public class ProductService {
         Product updatedProduct = updatedProductMapper.map(updatedProductDto);
         updatedProduct.setId(productId);
         return productRepository.save(updatedProduct);
+    }
+
+    public void deleteProduct(Long productId) {
+        if (!(productRepository.existsById(productId))) {
+            throw new ProductNotExist();
+        }
+        productRepository.deleteById(productId);
     }
 }
