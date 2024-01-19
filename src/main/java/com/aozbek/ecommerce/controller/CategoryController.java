@@ -28,4 +28,10 @@ public class CategoryController {
         Category updatedCategory = categoryService.updateCategory(category, categoryId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedCategory);
     }
+
+    @DeleteMapping(value = "/delete/{categoryId}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body("A category has been deleted successfully.");
+    }
 }

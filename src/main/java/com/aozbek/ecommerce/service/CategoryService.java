@@ -3,6 +3,7 @@ package com.aozbek.ecommerce.service;
 import com.aozbek.ecommerce.exception.CategoryNotExist;
 import com.aozbek.ecommerce.model.Category;
 import com.aozbek.ecommerce.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,5 +26,17 @@ public class CategoryService {
         Category updatedCategory = categoryRepository.getReferenceById(categoryId);
         updatedCategory.setCategoryName(category.getCategoryName());
         return categoryRepository.save(updatedCategory);
+    }
+
+    /*
+     To delete a category one must move or delete all the products belongs to
+     that category to another category. Due to existence of foreign key and
+     protect data integrity.
+    */
+    public void deleteCategory(Long categoryId) {
+        if (!(categoryRepository.existsById(categoryId))) {
+            throw new CategoryNotExist();
+        }
+        categoryRepository.deleteById(categoryId);
     }
 }
