@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UpdatedProductMapper {
-    @Mapping(target = "id", source = "updatedProductDto.id")
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "productName", source = "updatedProductDto.productName")
     @Mapping(target = "price", source = "updatedProductDto.price")
     @Mapping(target = "description", source = "updatedProductDto.description")

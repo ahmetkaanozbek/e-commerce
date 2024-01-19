@@ -35,15 +35,16 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updatedProduct(UpdatedProductDto updatedProductDto) {
+    public Product updatedProduct(UpdatedProductDto updatedProductDto, Long productId) {
         Long categoryIdOfProduct = updatedProductDto.getCategoryId();
         if (!(categoryRepository.existsById(categoryIdOfProduct))) {
             throw new CategoryNotExist();
         }
-        if (!(productRepository.existsById(updatedProductDto.getId()))) {
+        if (!(productRepository.existsById(productId))) {
             throw new ProductNotExist();
         }
         Product updatedProduct = updatedProductMapper.map(updatedProductDto);
+        updatedProduct.setId(productId);
         return productRepository.save(updatedProduct);
     }
 }
