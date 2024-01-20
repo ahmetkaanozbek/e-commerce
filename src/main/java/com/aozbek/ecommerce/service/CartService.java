@@ -47,7 +47,7 @@ public class CartService {
     }
 
 
-    public CartItem updateCartItem(CartItem updatedCartItem) {
+    public void updateCartItem(CartItem updatedCartItem) {
         // For now, in the request body I also need to add user. But after
         // authentication, cartItem will be enough for the request body.
         CartItem cartItem = cartRepository.findByUserAndId(
@@ -59,8 +59,7 @@ public class CartService {
             throw new CartItemNotExist();
         } else {
             cartItem.setQuantity(updatedCartItem.getQuantity());
-            return cartRepository.save(cartItem);
+            cartRepository.save(cartItem);
         }
-
     }
 }

@@ -24,9 +24,9 @@ public class CartController {
     }
 
     @PatchMapping(value = "/update")
-    public ResponseEntity<CartItem> updateCartItem(@RequestBody CartItem updatedCartItem) {
-        CartItem newCartItem = cartService.updateCartItem(updatedCartItem);
-        return ResponseEntity.status(HttpStatus.OK).body(newCartItem);
+    public ResponseEntity<String> updateCartItem(@RequestBody CartItem updatedCartItem) {
+        cartService.updateCartItem(updatedCartItem);
+        return ResponseEntity.status(HttpStatus.OK).body("An items quantity has been updated successfully.");
     }
 
 }
