@@ -2,6 +2,7 @@ package com.aozbek.ecommerce.controller;
 
 import com.aozbek.ecommerce.dto.CartRequestWrapper;
 import com.aozbek.ecommerce.model.CartItem;
+import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,4 +36,9 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body("An item has been deleted successfully.");
     }
 
+    @DeleteMapping(value = "/clear")
+    public ResponseEntity<String> clearAllCart(@RequestBody User usernameToClearCart) {
+        cartService.clearAllCart(usernameToClearCart);
+        return ResponseEntity.status(HttpStatus.OK).body("Cart has been cleared successfully.");
+    }
 }
