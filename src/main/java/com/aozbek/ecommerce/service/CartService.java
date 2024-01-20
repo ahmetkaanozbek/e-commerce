@@ -62,4 +62,13 @@ public class CartService {
             cartRepository.save(cartItem);
         }
     }
+
+    public void removeCartItem(CartItem removedCartItem) {
+        // I don't make any validation to check if that user authorized to remove
+        // that item from the cart, for now.
+        if (!(cartRepository.existsById(removedCartItem.getId()))) {
+            throw new CartItemNotExist();
+        }
+        cartRepository.deleteById(removedCartItem.getId());
+    }
 }

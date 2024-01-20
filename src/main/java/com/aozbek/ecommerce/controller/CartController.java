@@ -29,4 +29,10 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.OK).body("An items quantity has been updated successfully.");
     }
 
+    @DeleteMapping(value = "/remove")
+    public ResponseEntity<String> removeCartItem(@RequestBody CartItem removedCartItem) {
+        cartService.removeCartItem(removedCartItem);
+        return ResponseEntity.status(HttpStatus.OK).body("An item has been deleted successfully.");
+    }
+
 }
