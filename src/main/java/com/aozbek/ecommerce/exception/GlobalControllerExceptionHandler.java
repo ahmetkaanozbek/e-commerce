@@ -21,4 +21,10 @@ public class GlobalControllerExceptionHandler {
         log.error("ProductNotExist exception has been occurred. Message: "  + ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(CartItemNotExist.class)
+    public ResponseEntity<String> handleCartItemNotExist(CartItemNotExist ex) {
+        log.error("CartItemNotExist exception has been occured. Message: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

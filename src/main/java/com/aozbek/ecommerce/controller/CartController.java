@@ -5,10 +5,7 @@ import com.aozbek.ecommerce.model.CartItem;
 import com.aozbek.ecommerce.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/cart")
@@ -20,9 +17,16 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping (value = "/add")
-    public ResponseEntity<CartItem> addItemToCart(@RequestBody CartRequestWrapper cartRequestWrapper) {
-        CartItem addedItem = cartService.addItemToCart(cartRequestWrapper);
-        return ResponseEntity.status(HttpStatus.CREATED).body(addedItem);
+    @PostMapping(value = "/add")
+    public ResponseEntity<String> addItemToCart(@RequestBody CartRequestWrapper cartRequestWrapper) {
+        cartService.addItemToCart(cartRequestWrapper);
+        return ResponseEntity.status(HttpStatus.CREATED).body("An item has been added to cart successfully.");
     }
+
+    @PatchMapping(value = "/update")
+    public ResponseEntity<CartItem> updateCartItem(@RequestBody CartItem updatedCartItem) {
+        CartItem newCartItem = cartService.updateCartItem(updatedCartItem);
+        return ResponseEntity.status(HttpStatus.OK).body(newCartItem);
+    }
+
 }
