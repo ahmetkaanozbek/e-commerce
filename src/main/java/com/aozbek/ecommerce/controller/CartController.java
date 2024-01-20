@@ -1,12 +1,15 @@
 package com.aozbek.ecommerce.controller;
 
 import com.aozbek.ecommerce.dto.CartRequestWrapper;
+import com.aozbek.ecommerce.dto.GetUserCartDto;
 import com.aozbek.ecommerce.model.CartItem;
 import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cart")
@@ -16,6 +19,12 @@ public class CartController {
 
     public CartController(CartService cartService) {
         this.cartService = cartService;
+    }
+
+    @GetMapping(value = "/get-cart")
+    public ResponseEntity<List<GetUserCartDto>> getAllItems(@RequestBody User usernameToGetAll) {
+        List<GetUserCartDto> allCartItems = cartService.getAllItems(usernameToGetAll);
+        return ResponseEntity.status(HttpStatus.OK).body(allCartItems);
     }
 
     @PostMapping(value = "/add")

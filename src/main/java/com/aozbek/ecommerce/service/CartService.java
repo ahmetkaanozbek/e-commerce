@@ -1,8 +1,11 @@
 package com.aozbek.ecommerce.service;
 
 import com.aozbek.ecommerce.dto.CartRequestWrapper;
+import com.aozbek.ecommerce.dto.GetUserCartDto;
 import com.aozbek.ecommerce.exception.CartItemNotExist;
 import com.aozbek.ecommerce.exception.ProductNotExist;
+import com.aozbek.ecommerce.mapper.GetUserCartMapper;
+import com.aozbek.ecommerce.mapper.UpdatedProductMapper;
 import com.aozbek.ecommerce.model.CartItem;
 import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
@@ -11,19 +14,31 @@ import com.aozbek.ecommerce.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CartService {
 
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final GetUserCartMapper getUserCartMapper;
 
     public CartService(CartRepository cartRepository,
                        ProductRepository productRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository,
+                       GetUserCartMapper getUserCartMapper) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.getUserCartMapper = getUserCartMapper;
+    }
+
+    public List<GetUserCartDto> getAllItems(User usernameToGetAll) {
+        // After adding authentication it will look nice.
+        User currentUser = userRepository.getUserByUsername(usernameToGetAll.getUsername());
+        List<CartItem> allItems = cartRepository.getAllByUser(currentUser);
+        return getUserCartMapper.map(allItems);
     }
 
     public void addItemToCart(CartRequestWrapper cartRequestWrapper) {
