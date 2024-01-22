@@ -24,7 +24,13 @@ public class GlobalControllerExceptionHandler {
 
     @ExceptionHandler(CartItemNotExist.class)
     public ResponseEntity<String> handleCartItemNotExist(CartItemNotExist ex) {
-        log.error("CartItemNotExist exception has been occured. Message: " + ex.getMessage());
+        log.error("CartItemNotExist exception has been occurred. Message: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UsernameAlreadyExists.class)
+    public ResponseEntity<String> handleUsernameAlreadyExists(UsernameAlreadyExists ex) {
+        log.error("UsernameAlreadyExists exception has been occurred. Message: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

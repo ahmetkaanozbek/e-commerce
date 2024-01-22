@@ -5,7 +5,6 @@ import com.aozbek.ecommerce.dto.GetUserCartDto;
 import com.aozbek.ecommerce.exception.CartItemNotExist;
 import com.aozbek.ecommerce.exception.ProductNotExist;
 import com.aozbek.ecommerce.mapper.GetUserCartMapper;
-import com.aozbek.ecommerce.mapper.UpdatedProductMapper;
 import com.aozbek.ecommerce.model.CartItem;
 import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
