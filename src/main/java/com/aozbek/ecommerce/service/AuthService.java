@@ -4,6 +4,7 @@ import com.aozbek.ecommerce.dto.AuthenticationResponse;
 import com.aozbek.ecommerce.dto.LoginRequest;
 import com.aozbek.ecommerce.dto.RegisterRequest;
 import com.aozbek.ecommerce.exception.UsernameAlreadyExists;
+import com.aozbek.ecommerce.model.RefreshToken;
 import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.model.UserDetailsImp;
 import com.aozbek.ecommerce.repository.UserRepository;
@@ -23,16 +24,19 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
 
     public AuthService(
             PasswordEncoder passwordEncoder,
             UserRepository userRepository,
             AuthenticationManager authenticationManager,
-            JwtService jwtService) {
+            JwtService jwtService,
+            RefreshTokenService refreshTokenService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     public void signup(RegisterRequest registerRequest) {
@@ -46,7 +50,7 @@ public class AuthService {
     }
 
     public AuthenticationResponse login(LoginRequest loginRequest) {
-        User user = userRepository.getUserByUsername(loginRequest.getUsername());
+        User user = userRepository.findByUsername(loginRequest.getUsername());
         if (user == null) {
             throw new UsernameNotFoundException("No user exists with this username.");
         }
@@ -58,8 +62,10 @@ public class AuthService {
         );
         UserDetailsImp userDetailsImp = new UserDetailsImp(user);
         String jwtToken = jwtService.generateToken(userDetailsImp);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetailsImp.getUsername());
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken.getToken())
                 .build();
     }
 

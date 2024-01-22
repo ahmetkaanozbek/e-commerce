@@ -40,4 +40,10 @@ public class GlobalControllerExceptionHandler {
         log.error("UsernameNotFoundException exception has been occurred. Message: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(InvalidRefreshToken.class)
+    public ResponseEntity<String> handleInvalidRefreshToken(InvalidRefreshToken ex) {
+        log.info("InvalidRefreshToken exception has been occurred. Message: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
