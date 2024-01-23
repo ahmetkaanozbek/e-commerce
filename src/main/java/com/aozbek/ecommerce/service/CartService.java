@@ -11,6 +11,7 @@ import com.aozbek.ecommerce.repository.CartRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import com.aozbek.ecommerce.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,20 +23,27 @@ public class CartService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final GetUserCartMapper getUserCartMapper;
+    private final AuthService authService;
 
     public CartService(CartRepository cartRepository,
                        ProductRepository productRepository,
                        UserRepository userRepository,
-                       GetUserCartMapper getUserCartMapper) {
+                       GetUserCartMapper getUserCartMapper,
+                       AuthService authService) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.getUserCartMapper = getUserCartMapper;
+        this.authService = authService;
     }
 
-    public List<GetUserCartDto> getAllItems(User usernameToGetAll) {
-        // After adding authentication it will look nice.
-        User currentUser = userRepository.getUserByUsername(usernameToGetAll.getUsername());
+    public List<GetUserCartDto> getAllItems() {
+        User currentUser = userRepository.getUserByUsername(authService
+                .getCurrentUser()
+                .getUsername());
+        if (currentUser == null) {
+            throw new UsernameNotFoundException("No user exists with this username.");
+        }
         List<CartItem> allItems = cartRepository.getAllByUser(currentUser);
         return getUserCartMapper.map(allItems);
     }

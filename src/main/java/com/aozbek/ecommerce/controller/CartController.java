@@ -22,8 +22,8 @@ public class CartController {
     }
 
     @GetMapping(value = "/get-cart")
-    public ResponseEntity<List<GetUserCartDto>> getAllItems(@RequestBody User usernameToGetAll) {
-        List<GetUserCartDto> allCartItems = cartService.getAllItems(usernameToGetAll);
+    public ResponseEntity<List<GetUserCartDto>> getAllItems() {
+        List<GetUserCartDto> allCartItems = cartService.getAllItems();
         return ResponseEntity.status(HttpStatus.OK).body(allCartItems);
     }
 
