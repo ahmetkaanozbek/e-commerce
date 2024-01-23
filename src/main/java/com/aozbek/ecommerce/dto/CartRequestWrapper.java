@@ -13,6 +13,5 @@ import lombok.Setter;
 @Setter
 public class CartRequestWrapper {
     private Product product;
-    private User user;
     private Integer quantity;
 }

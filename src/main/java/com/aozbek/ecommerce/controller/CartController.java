@@ -46,8 +46,8 @@ public class CartController {
     }
 
     @DeleteMapping(value = "/clear")
-    public ResponseEntity<String> clearAllCart(@RequestBody User usernameToClearCart) {
-        cartService.clearAllCart(usernameToClearCart);
+    public ResponseEntity<String> clearAllCart() {
+        cartService.clearAllCart();
         return ResponseEntity.status(HttpStatus.OK).body("Cart has been cleared successfully.");
     }
 }

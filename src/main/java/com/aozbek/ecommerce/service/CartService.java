@@ -4,14 +4,13 @@ import com.aozbek.ecommerce.dto.CartRequestWrapper;
 import com.aozbek.ecommerce.dto.GetUserCartDto;
 import com.aozbek.ecommerce.exception.CartItemNotExist;
 import com.aozbek.ecommerce.exception.ProductNotExist;
+import com.aozbek.ecommerce.exception.UnauthorizedAction;
 import com.aozbek.ecommerce.mapper.GetUserCartMapper;
 import com.aozbek.ecommerce.model.CartItem;
 import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import com.aozbek.ecommerce.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,24 +40,20 @@ public class CartService {
         User currentUser = userRepository.getUserByUsername(authService
                 .getCurrentUser()
                 .getUsername());
-        if (currentUser == null) {
-            throw new UsernameNotFoundException("No user exists with this username.");
-        }
         List<CartItem> allItems = cartRepository.getAllByUser(currentUser);
         return getUserCartMapper.map(allItems);
     }
 
     public void addItemToCart(CartRequestWrapper cartRequestWrapper) {
-        // After adding authentication, I will get username from SecurityContextHolder.
-        // So, for now, I won't check if that user exists or not.
         Long productId = cartRequestWrapper.getProduct().getId();
+        User currentUser = authService.getCurrentUser();
 
         if (!(productRepository.existsById(productId))) {
             throw new ProductNotExist();
         }
         if (cartRequestWrapper.getQuantity() > 0) {
             CartItem existingCartItem = cartRepository.findByUserAndProduct(
-                    cartRequestWrapper.getUser(),
+                    currentUser,
                     cartRequestWrapper.getProduct()
             );
 
@@ -67,7 +62,7 @@ public class CartService {
                 cartRepository.save(existingCartItem);
             } else {
                 CartItem addedCartItem = new CartItem();
-                addedCartItem.setUser(cartRequestWrapper.getUser());
+                addedCartItem.setUser(currentUser);
                 addedCartItem.setProduct(cartRequestWrapper.getProduct());
                 addedCartItem.setQuantity(cartRequestWrapper.getQuantity());
                 cartRepository.save(addedCartItem);
@@ -76,10 +71,9 @@ public class CartService {
     }
 
     public void updateCartItem(CartItem updatedCartItem) {
-        // For now, in the request body I also need to add user. But after
-        // authentication, cartItem will be enough for the request body.
+        User currentUser = authService.getCurrentUser();
         CartItem cartItem = cartRepository.findByUserAndId(
-                updatedCartItem.getUser(),
+                currentUser,
                 updatedCartItem.getId()
         );
 
@@ -92,19 +86,18 @@ public class CartService {
     }
 
     public void removeCartItem(CartItem removedCartItem) {
-        // I don't make any validation to check if that user authorized
-        // to remove that item from the cart, for now.
-        if (!(cartRepository.existsById(removedCartItem.getId()))) {
-            throw new CartItemNotExist();
+        CartItem cartItem = cartRepository.findById(removedCartItem.getId())
+                .orElseThrow(CartItemNotExist::new);
+        User currentUser = authService.getCurrentUser();
+        if (cartItem.getUser() == currentUser) {
+            cartRepository.deleteById(removedCartItem.getId());
+        } else {
+            throw new UnauthorizedAction();
         }
-        cartRepository.deleteById(removedCartItem.getId());
     }
 
-    @Transactional
-    public void clearAllCart(User usernameToClearCart) {
-        // I can get username after adding authentication so there
-        // will be no need to get username from the request body.
-        User currentUser = userRepository.getUserByUsername(usernameToClearCart.getUsername());
+    public void clearAllCart() {
+        User currentUser = authService.getCurrentUser();
         cartRepository.deleteAllByUser(currentUser);
     }
 }

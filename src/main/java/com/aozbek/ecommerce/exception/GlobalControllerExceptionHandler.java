@@ -46,4 +46,10 @@ public class GlobalControllerExceptionHandler {
         log.info("InvalidRefreshToken exception has been occurred. Message: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    @ExceptionHandler(UnauthorizedAction.class)
+    public ResponseEntity<String> handleUnauthorizedAction(UnauthorizedAction ex) {
+        log.info("UnauthorizedAction exception has been occurred. Message: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
 }
