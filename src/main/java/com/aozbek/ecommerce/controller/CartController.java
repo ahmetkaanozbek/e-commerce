@@ -3,7 +3,6 @@ package com.aozbek.ecommerce.controller;
 import com.aozbek.ecommerce.dto.CartRequestWrapper;
 import com.aozbek.ecommerce.dto.GetUserCartDto;
 import com.aozbek.ecommerce.model.CartItem;
-import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

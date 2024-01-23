@@ -1,7 +1,6 @@
 package com.aozbek.ecommerce.dto;
 
 import com.aozbek.ecommerce.model.Product;
-import com.aozbek.ecommerce.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
