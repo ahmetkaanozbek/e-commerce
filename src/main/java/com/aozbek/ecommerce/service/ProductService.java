@@ -7,9 +7,12 @@ import com.aozbek.ecommerce.mapper.UpdatedProductMapper;
 import com.aozbek.ecommerce.model.Product;
 import com.aozbek.ecommerce.repository.CategoryRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
 
 @Service
+@EnableMethodSecurity
 public class ProductService {
 
     private final ProductRepository productRepository;
@@ -25,6 +28,7 @@ public class ProductService {
         this.updatedProductMapper = updatedProductMapper;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product saveProduct(Product product) {
         Long categoryIdOfProduct = product.getCategory().getId();
         if (!(categoryRepository.existsById(categoryIdOfProduct))) {
@@ -33,6 +37,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product updateProduct(UpdatedProductDto updatedProductDto, Long productId) {
         Long categoryIdOfProduct = updatedProductDto.getCategoryId();
         if (!(categoryRepository.existsById(categoryIdOfProduct))) {
@@ -46,6 +51,7 @@ public class ProductService {
         return productRepository.save(updatedProduct);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProduct(Long productId) {
         if (!(productRepository.existsById(productId))) {
             throw new ProductNotExist();
