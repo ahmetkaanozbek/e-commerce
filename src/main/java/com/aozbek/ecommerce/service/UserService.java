@@ -60,4 +60,11 @@ public class UserService {
             throw new RoleNotExist();
         }
     }
+
+    public List<Role> getAllRolesOfUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExist::new);
+
+        return user.getRoles();
+    }
 }

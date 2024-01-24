@@ -1,10 +1,12 @@
 package com.aozbek.ecommerce.controller;
 
-import com.aozbek.ecommerce.model.User;
+import com.aozbek.ecommerce.model.Role;
 import com.aozbek.ecommerce.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -32,5 +34,11 @@ public class UserController {
     public ResponseEntity<String> revokeRoleFromUser(@PathVariable Long userId, @PathVariable Long roleId) {
         userService.revokeRoleFromUser(userId, roleId);
         return ResponseEntity.status(HttpStatus.OK).body("A role has been revoked successfully.");
+    }
+
+    @GetMapping(value = "/get-roles/{userId}")
+    public ResponseEntity<List<Role>> getAllRolesOfUser(@PathVariable Long userId) {
+        List<Role> roles = userService.getAllRolesOfUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(roles);
     }
 }
