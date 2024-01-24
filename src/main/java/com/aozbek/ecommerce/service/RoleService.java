@@ -1,8 +1,11 @@
 package com.aozbek.ecommerce.service;
 
+import com.aozbek.ecommerce.exception.RoleNotExist;
 import com.aozbek.ecommerce.model.Role;
 import com.aozbek.ecommerce.repository.RoleRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RoleService {
@@ -18,12 +21,18 @@ public class RoleService {
     }
 
     public void deleteRole(Long roleId) {
+        roleRepository.findById(roleId).orElseThrow(RoleNotExist::new);
         roleRepository.deleteById(roleId);
     }
 
-    public Role updateRole(Long roleId, Role updatedName) {
+    public void updateRole(Long roleId, Role updatedName) {
+        roleRepository.findById(roleId).orElseThrow(RoleNotExist::new);
         Role updatedRole = roleRepository.getReferenceById(roleId);
         updatedRole.setName(updatedName.getName());
-        return roleRepository.save(updatedRole);
+        roleRepository.save(updatedRole);
+    }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 }

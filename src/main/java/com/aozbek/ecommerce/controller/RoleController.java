@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/role")
 public class RoleController {
@@ -29,8 +31,14 @@ public class RoleController {
     }
 
     @PutMapping(value = "/update/{roleId}")
-    public ResponseEntity<Role> updateRole(@PathVariable Long roleId, @RequestBody Role updatedName) {
-        Role updatedRole = roleService.updateRole(roleId, updatedName);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedRole);
+    public ResponseEntity<String> updateRole(@PathVariable Long roleId, @RequestBody Role updatedName) {
+        roleService.updateRole(roleId, updatedName);
+        return ResponseEntity.status(HttpStatus.OK).body("A role has been updated successfully.");
+    }
+
+    @GetMapping(value = "/get-all")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        List<Role> allRoles = roleService.getAllRoles();
+        return ResponseEntity.status(HttpStatus.OK).body(allRoles);
     }
 }

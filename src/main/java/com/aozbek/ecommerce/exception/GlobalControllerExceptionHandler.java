@@ -52,4 +52,10 @@ public class GlobalControllerExceptionHandler {
         log.error("UnauthorizedAction exception has been occurred. Message: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
     }
+
+    @ExceptionHandler(RoleNotExist.class)
+    public ResponseEntity<String> handleRoleNotExist(RoleNotExist ex) {
+        log.error("RoleNotExist exception has been occurred. Message: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }
