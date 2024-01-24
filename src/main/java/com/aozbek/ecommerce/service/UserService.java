@@ -23,7 +23,14 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public User assignRoleToUser(Long userId, Long roleId) {
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExist::new);
+
+        userRepository.delete(user);
+    }
+
+    public void assignRoleToUser(Long userId, Long roleId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotExist::new);
         Role role = roleRepository.findById(roleId)
@@ -35,10 +42,10 @@ public class UserService {
         }
         roles.add(role);
         user.setRoles(roles);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
-    public User revokeRoleFromUser(Long userId, Long roleId) {
+    public void revokeRoleFromUser(Long userId, Long roleId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotExist::new);
         Role role = roleRepository.findById(roleId)
@@ -48,7 +55,7 @@ public class UserService {
         if (roles != null) {
             roles.remove(role);
             user.setRoles(roles);
-            return userRepository.save(user);
+            userRepository.save(user);
         } else {
             throw new RoleNotExist();
         }

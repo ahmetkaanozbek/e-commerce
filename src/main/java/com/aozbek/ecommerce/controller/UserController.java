@@ -16,15 +16,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    @DeleteMapping(value = "/delete/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body("A user has been deleted successfully.");
+    }
+
     @PostMapping(value = "/{userId}/assign-role/{roleId}")
-    public ResponseEntity<User> assignRoleToUser(@PathVariable Long userId, @PathVariable Long roleId) {
-        User updatedUser = userService.assignRoleToUser(userId, roleId);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+    public ResponseEntity<String> assignRoleToUser(@PathVariable Long userId, @PathVariable Long roleId) {
+        userService.assignRoleToUser(userId, roleId);
+        return ResponseEntity.status(HttpStatus.OK).body("A role has been assigned successfully.");
     }
 
     @PatchMapping(value = "/{userId}/revoke-role/{roleId}")
-    public ResponseEntity<User> revokeRoleFromUser(@PathVariable Long userId, @PathVariable Long roleId) {
-        User updatedUser = userService.revokeRoleFromUser(userId, roleId);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+    public ResponseEntity<String> revokeRoleFromUser(@PathVariable Long userId, @PathVariable Long roleId) {
+        userService.revokeRoleFromUser(userId, roleId);
+        return ResponseEntity.status(HttpStatus.OK).body("A role has been revoked successfully.");
     }
 }
