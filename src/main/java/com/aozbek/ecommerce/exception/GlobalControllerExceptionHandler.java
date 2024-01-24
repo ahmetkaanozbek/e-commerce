@@ -58,4 +58,10 @@ public class GlobalControllerExceptionHandler {
         log.error("RoleNotExist exception has been occurred. Message: " + ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(UserNotExist.class)
+    public ResponseEntity<String> handleUserNotExist(UserNotExist ex) {
+        log.error("UserNotExist exception has been occurred. Message: " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

@@ -1,26 +1,25 @@
 package com.aozbek.ecommerce.controller;
 
 import com.aozbek.ecommerce.model.User;
-import com.aozbek.ecommerce.repository.UserRepository;
+import com.aozbek.ecommerce.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping(value = "/save")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
+    @PostMapping("/{userId}/assign-role/{roleId}")
+    public ResponseEntity<User> assignRoleToUser(@PathVariable Long userId, @PathVariable Long roleId) {
+        User updatedUser = userService.assignRoleToUser(userId, roleId);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
     }
+
 }
