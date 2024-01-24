@@ -37,4 +37,20 @@ public class UserService {
         user.setRoles(roles);
         return userRepository.save(user);
     }
+
+    public User revokeRoleFromUser(Long userId, Long roleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotExist::new);
+        Role role = roleRepository.findById(roleId)
+                .orElseThrow(RoleNotExist::new);
+
+        List<Role> roles = user.getRoles();
+        if (roles != null) {
+            roles.remove(role);
+            user.setRoles(roles);
+            return userRepository.save(user);
+        } else {
+            throw new RoleNotExist();
+        }
+    }
 }

@@ -16,10 +16,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/{userId}/assign-role/{roleId}")
+    @PostMapping(value = "/{userId}/assign-role/{roleId}")
     public ResponseEntity<User> assignRoleToUser(@PathVariable Long userId, @PathVariable Long roleId) {
         User updatedUser = userService.assignRoleToUser(userId, roleId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
     }
 
+    @PatchMapping(value = "/{userId}/revoke-role/{roleId}")
+    public ResponseEntity<User> revokeRoleFromUser(@PathVariable Long userId, @PathVariable Long roleId) {
+        User updatedUser = userService.revokeRoleFromUser(userId, roleId);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+    }
 }
