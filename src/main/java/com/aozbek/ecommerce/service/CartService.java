@@ -11,7 +11,6 @@ import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import com.aozbek.ecommerce.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

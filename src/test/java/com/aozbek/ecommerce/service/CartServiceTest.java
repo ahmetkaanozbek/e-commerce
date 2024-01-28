@@ -1,7 +1,6 @@
 package com.aozbek.ecommerce.service;
 
 import com.aozbek.ecommerce.dto.CartRequestWrapper;
-import com.aozbek.ecommerce.dto.GetUserCartDto;
 import com.aozbek.ecommerce.exception.CartItemNotExist;
 import com.aozbek.ecommerce.exception.ProductNotExist;
 import com.aozbek.ecommerce.exception.UnauthorizedAction;
@@ -12,7 +11,6 @@ import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import com.aozbek.ecommerce.repository.UserRepository;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

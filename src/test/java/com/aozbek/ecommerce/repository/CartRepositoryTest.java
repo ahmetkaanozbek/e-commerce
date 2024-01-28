@@ -30,36 +30,16 @@ class CartRepositoryTest {
     @Test
     void findByUserAndProduct() {
         // given
-        User user = new User(
-                1L,
-                "kaan",
-                "123",
-                null
-        );
+        User testUser = new User(1L, "testUser", "testPassword", null);
+        Product testProduct = new Product(1L, "testProduct", new BigDecimal(15), "description", null);
+        CartItem testCartItem = new CartItem(1L, 3, testProduct, testUser);
 
-        BigDecimal bigDecimal = new BigDecimal(15);
-
-        Product product = new Product(
-                1L,
-                "nuts",
-                bigDecimal,
-                "A delicious one.",
-                null
-        );
-
-        CartItem underTestCartItem = new CartItem(
-                1L,
-                3,
-                product,
-                user
-        );
-
-        userRepository.save(user);
-        productRepository.save(product);
-        CartItem realCartItem = underTest.save(underTestCartItem);
+        userRepository.save(testUser);
+        productRepository.save(testProduct);
+        CartItem realCartItem = underTest.save(testCartItem);
 
         // when
-        CartItem expected = underTest.findByUserAndProduct(user, product);
+        CartItem expected = underTest.findByUserAndProduct(testUser, testProduct);
 
         // then
         assertThat(expected).isEqualTo(realCartItem);
