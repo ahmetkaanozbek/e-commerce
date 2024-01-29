@@ -65,6 +65,7 @@ class CartServiceTest {
         underTestService.getAllItems();
 
         // then
+        @SuppressWarnings("unchecked")
         ArgumentCaptor<ArrayList<CartItem>> cartItemArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
         verify(getUserCartMapper).map(cartItemArgumentCaptor.capture());
         ArrayList<CartItem> capturedCartItems = cartItemArgumentCaptor.getValue();
