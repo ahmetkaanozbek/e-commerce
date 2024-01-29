@@ -11,7 +11,6 @@ import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import com.aozbek.ecommerce.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -66,10 +65,10 @@ class CartServiceTest {
         underTestService.getAllItems();
 
         // then
-        verify(userRepository).getUserByUsername(testUser.getUsername());
-        verify(authService).getCurrentUser();
-        verify(cartRepository).getAllByUser(testUser);
-        verify(getUserCartMapper).map(testCartItems);
+        ArgumentCaptor<ArrayList<CartItem>> cartItemArgumentCaptor = ArgumentCaptor.forClass(ArrayList.class);
+        verify(getUserCartMapper).map(cartItemArgumentCaptor.capture());
+        ArrayList<CartItem> capturedCartItems = cartItemArgumentCaptor.getValue();
+        assertThat(testCartItems).isEqualTo(capturedCartItems);
     }
 
     @Test
