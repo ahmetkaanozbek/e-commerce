@@ -11,8 +11,10 @@ import com.aozbek.ecommerce.model.User;
 import com.aozbek.ecommerce.repository.CartRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import com.aozbek.ecommerce.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -71,7 +73,7 @@ class CartServiceTest {
     }
 
     @Test
-    void addItemToCart_addNotAlreadyAddedAndValidItemToCartSuccessfully() {
+    void addItemToCart_addNotAlreadyAddedAndValidItemToCartSuccessfullyAndIfTheSavedCartItemSameWithIntendedOne() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
         User testUser = new User(2L, "testUsername", "testPassword", null);
@@ -89,8 +91,13 @@ class CartServiceTest {
         underTestService.addItemToCart(testCartRequestWrapper);
 
         // then
+        ArgumentCaptor<CartItem> cartItemArgumentCaptor = ArgumentCaptor.forClass(CartItem.class);
         // verify save method is called on cartRepository
-        verify(cartRepository).save(any(CartItem.class));
+        verify(cartRepository).save(cartItemArgumentCaptor.capture());
+        CartItem capturedCartItem = cartItemArgumentCaptor.getValue();
+        assertThat(capturedCartItem.getQuantity()).isEqualTo(testCartRequestWrapper.getQuantity());
+        assertThat(capturedCartItem.getProduct()).isEqualTo(testProduct);
+        assertThat(capturedCartItem.getUser()).isEqualTo(testUser);
     }
 
     @Test
