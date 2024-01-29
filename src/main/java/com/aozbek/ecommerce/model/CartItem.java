@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +27,20 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "users_id")
     User user;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        CartItem that = (CartItem) obj;
+        return (Objects.equals(quantity, that.quantity)) && (Objects.equals(product, that.product))
+                && (Objects.equals(user, that.user));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quantity, product, user);
+    }
 }

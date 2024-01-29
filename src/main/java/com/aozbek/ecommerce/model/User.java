@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -26,4 +27,20 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        User that = (User) obj;
+        return (Objects.equals(username, that.username)) && (Objects.equals(password, that.password))
+                && (Objects.equals(roles, that.roles));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, roles);
+    }
 }
