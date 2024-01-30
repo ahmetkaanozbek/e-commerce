@@ -6,6 +6,7 @@ import com.aozbek.ecommerce.dto.RefreshTokenRequestDto;
 import com.aozbek.ecommerce.dto.RegisterRequest;
 import com.aozbek.ecommerce.service.AuthService;
 import com.aozbek.ecommerce.service.RefreshTokenService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,13 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<String> signup(@RequestBody @Valid RegisterRequest registerRequest) {
         authService.signup(registerRequest);
         return ResponseEntity.status(HttpStatus.OK).body("A registration has been made successfully.");
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(authService.login(loginRequest));
     }
 
