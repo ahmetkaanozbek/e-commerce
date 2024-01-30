@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value= "/api/product")
 public class ProductController {
@@ -15,6 +17,12 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @GetMapping(value = "/get-all/{categoryId}")
+    public ResponseEntity<List<Product>> getProducts(@PathVariable Long categoryId) {
+        List<Product> productList = productService.getProducts(categoryId);
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
     @PostMapping(value = "/save")

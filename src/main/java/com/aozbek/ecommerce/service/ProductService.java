@@ -4,12 +4,15 @@ import com.aozbek.ecommerce.dto.UpdatedProductDto;
 import com.aozbek.ecommerce.exception.CategoryNotExist;
 import com.aozbek.ecommerce.exception.ProductNotExist;
 import com.aozbek.ecommerce.mapper.UpdatedProductMapper;
+import com.aozbek.ecommerce.model.Category;
 import com.aozbek.ecommerce.model.Product;
 import com.aozbek.ecommerce.repository.CategoryRepository;
 import com.aozbek.ecommerce.repository.ProductRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @EnableMethodSecurity
@@ -26,6 +29,12 @@ public class ProductService {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.updatedProductMapper = updatedProductMapper;
+    }
+
+    public List<Product> getProducts(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(CategoryNotExist::new);
+        return productRepository.findAllByCategory(category);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
