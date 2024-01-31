@@ -47,7 +47,7 @@ class CartServiceTest {
     @Test
     void getAllItems_getAllItemsSuccessfully() {
         // given
-        User testUser = new User(1L, "testUser", "password", null);
+        User testUser = new User(1L, "testUser", "password", null, null, null);
         Product testProduct = new Product(2L, "productName", new BigDecimal(15), "singleProduct", null);
         CartItem testCartItem = new CartItem(3L, 10, testProduct, testUser);
         List<CartItem> testCartItems = new ArrayList<>();
@@ -76,7 +76,7 @@ class CartServiceTest {
     void addItemToCart_addNotAlreadyAddedAndValidItemToCartSuccessfullyAndIfTheSavedCartItemSameWithIntendedOne() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartRequestWrapper testCartRequestWrapper = new CartRequestWrapper(testProduct, 10);
 
         // mockingBehavior
@@ -120,7 +120,7 @@ class CartServiceTest {
     void addItemToCart_addQuantityToTheExistingCartItemsQuantityWhichAlreadyExistsInCart() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem existingCartItem = new CartItem(3L, 1, testProduct, testUser);
         CartRequestWrapper cartRequestWrapper = new CartRequestWrapper(testProduct, 3);
         Integer updatedQuantity = existingCartItem.getQuantity() + cartRequestWrapper.getQuantity();
@@ -147,7 +147,7 @@ class CartServiceTest {
     void updateCartItem_updateAnItemsQuantityWhichAlreadyExistsInCart() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem existingCartItem = new CartItem(3L, 1, testProduct, testUser);
         CartItem updatedCartItem = new CartItem(3L, 15, testProduct, testUser);
 
@@ -170,7 +170,7 @@ class CartServiceTest {
     void updateCartItem_throwsCartItemNotExistExceptionWhenThereIsNoCartItemWithThatUserAndCartItemId() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem existingCartItem = new CartItem(3L, 1, testProduct, testUser);
 
         // mockingBehavior
@@ -189,7 +189,7 @@ class CartServiceTest {
     void removeCartItem_checkIfItRemovesCartItemSuccessfully() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem existingCartItem = new CartItem(3L, 1, testProduct, testUser);
 
         // mockingBehavior
@@ -209,7 +209,7 @@ class CartServiceTest {
     void removeCartItem_checkCartItemNotExistExceptionIsThrownWhenThereIsNoPersistedCartItemWithThatId() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem removedCartItem = new CartItem(3L, 1, testProduct, testUser);
 
         // mockingBehavior
@@ -225,8 +225,8 @@ class CartServiceTest {
     void removeCartItem_checkUnauthorizedActionExceptionIsThrownIfCurrentUserDoesntMatchWithTheGivenOne() {
         // given
         Product testProduct = new Product(1L, "sampleProduct", new BigDecimal(15), "productForTestPurposes", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
-        User differentUser = new User(4L, "differentUsername", "differentPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
+        User differentUser = new User(4L, "differentUsername", "differentPassword", null, null, null);
         CartItem removedCartItem = new CartItem(3L, 1, testProduct, differentUser);
 
         // mockingBehavior
@@ -242,7 +242,7 @@ class CartServiceTest {
     @Test
     void clearAllCart_checkIfAllCartItemsHaveBeenDeleted() {
         // given
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
 
         // mockingBehavior
         when(authService.getCurrentUser())

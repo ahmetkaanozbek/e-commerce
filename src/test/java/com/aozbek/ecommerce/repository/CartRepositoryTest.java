@@ -30,7 +30,7 @@ class CartRepositoryTest {
     @Test
     void findByUserAndProduct() {
         // given
-        User testUser = new User(1L, "testUser", "testPassword", null);
+        User testUser = new User(1L, "testUser", "testPassword", null, null, null);
         Product testProduct = new Product(1L, "testProduct", new BigDecimal(15), "description", null);
         CartItem testCartItem = new CartItem(1L, 3, testProduct, testUser);
 

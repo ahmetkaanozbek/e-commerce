@@ -20,13 +20,19 @@ public class User {
     private String username;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private RefreshToken refreshToken;
 
     @Override
     public boolean equals(Object obj) {
@@ -36,11 +42,12 @@ public class User {
             return false;
         User that = (User) obj;
         return (Objects.equals(username, that.username)) && (Objects.equals(password, that.password))
-                && (Objects.equals(roles, that.roles));
+                && (Objects.equals(roles, that.roles)) && (Objects.equals(cartItems, that.cartItems))
+                && (Objects.equals(refreshToken, that.refreshToken));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, roles);
+        return Objects.hash(username, password, roles, cartItems, refreshToken);
     }
 }

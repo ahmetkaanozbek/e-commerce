@@ -85,7 +85,7 @@ class CartControllerTest {
             throws Exception {
         // given
         Product testProduct = new Product(2L, "testProduct", new BigDecimal(10), "description", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem testCartItem = new CartItem(1L, 1, testProduct, testUser);
 
         // when
@@ -104,7 +104,7 @@ class CartControllerTest {
             throws Exception {
         // given
         Product testProduct = new Product(2L, "testProduct", new BigDecimal(10), "description", null);
-        User testUser = new User(2L, "testUsername", "testPassword", null);
+        User testUser = new User(2L, "testUsername", "testPassword", null, null, null);
         CartItem testCartItem = new CartItem(1L, 1, testProduct, testUser);
 
         // when
