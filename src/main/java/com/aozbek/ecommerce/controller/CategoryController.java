@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/category")
 public class CategoryController {
@@ -14,6 +16,12 @@ public class CategoryController {
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
+    }
+
+    @GetMapping(value = "/get-all")
+    public ResponseEntity<List<Category>> getCategories() {
+        List<Category> categoryList = categoryService.getCategories();
+        return ResponseEntity.status(HttpStatus.OK).body(categoryList);
     }
 
     @PostMapping(value = "/save")

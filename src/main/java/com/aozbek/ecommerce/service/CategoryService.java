@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @EnableMethodSecurity
 public class CategoryService {
@@ -15,6 +17,10 @@ public class CategoryService {
 
     public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+    }
+
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
