@@ -69,6 +69,14 @@ public class GlobalControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
+    /*
+    @ExceptionHandler(CraftgateException.class)
+    public ResponseEntity<String> handleCraftgateException() {
+        log.error("CraftgateException exception has been occurred.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("An error has been occurred during payment process.");
+    }
+    */
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<String> errors = new ArrayList<>();

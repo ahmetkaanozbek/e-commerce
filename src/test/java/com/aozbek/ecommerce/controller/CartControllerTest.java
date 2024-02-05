@@ -28,16 +28,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebMvcTest(controllers = CartController.class,
-        excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@WebMvcTest(excludeAutoConfiguration = SecurityAutoConfiguration.class)
 @ContextConfiguration(classes = CartController.class)
 @ExtendWith(MockitoExtension.class)
 class CartControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
     @MockBean
     private CartService cartService;
 
@@ -129,15 +128,3 @@ class CartControllerTest {
         verify(cartService, times(1)).clearAllCart();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
